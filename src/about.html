@@ -6,7 +6,8 @@
     <meta name="description" content="" />
     <style>
       body {
-          background-image: url("./images/umd pic.jpg");
+          height: 100%;
+          background-color: tan;
           background-size: cover;
           background-repeat: no-repeat;
           background-attachment: fixed;
@@ -33,9 +34,26 @@
           color: red;
           font-size: 200px;
       }
+      .container {
+        display:flex;
+        justify-content:space-around;
+        height:100vh;
+        align-items: center;
+      }
+      .paragraph {
+        max-width:500px;
+      }
     </style>
 </head>
 <body>
-  <div> Hi, I'm Chris</div>
+  <div class="container">
+    <div class="paragraph">
+      <h1>Hi, I'm Chris.</h1>
+      <p> I'm currently a Sophomore student at the University of Maryland, College Park. I'm studying Finance and Accounting, and I hope to pursue a career in investment banking or sales & trading. Thanks for checking out my portfolio website! </p>
+    </div>
+    <div>
+      image
+    </div>
+  </div>
 </body>
 </html>
