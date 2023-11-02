@@ -1,0 +1,56 @@
+/* styles.css */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0d9b5; /* Tan background color */
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #000080; /* Navy Blue background color */
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  background-color: #000080; /* Navy Blue background color */
+  padding: 10px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff;
+  margin: 0 20px;
+  font-size: 20px;
+  transition: font-weight 0.3s;
+}
+
+nav a:hover {
+  font-weight: bold;
+}
+
+.container {
+  max-width: 960px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.container2 {
+  display:flex;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+.pictureSize {
+  width: 300px;
+  height: auto;
+  padding: 20px;
+}
