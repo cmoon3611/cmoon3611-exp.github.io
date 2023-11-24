@@ -1,6 +1,5 @@
-/* eslint-disable no-plusplus */
 // This function makes a AJAX request
-export default function makeRequest(method, url, doneCallback, body) {
+function makeRequest(method, url, doneCallback, body) {
   const xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function onreadystatechange() {
     const { status, readyState } = xhr;
@@ -12,13 +11,13 @@ export default function makeRequest(method, url, doneCallback, body) {
         // here to turn the string (eg "{}") to the object (eg {})
         const responseData = JSON.parse(xhr.responseText);
         doneCallback({
-          responseData,
+          responseData
         });
       } else {
         // Oh no! There has been an error with the request!
         // Let callback know what the statusText says, which should help in knowing what went wrong
         doneCallback({
-          error: new Error(xhr.statusText),
+          error: new Error(xhr.statusText)
         });
       }
     }
@@ -29,67 +28,59 @@ export default function makeRequest(method, url, doneCallback, body) {
   xhr.send(body || null);
 }
 
-makeRequest(
-  'GET',
-  'https://data.wa.gov/api/views/f6w7-q2d2/rows.json?accessType=DOWNLOAD',
-  (response) => {
-    if (response.error) {
-      throw response.error;
-    }
-    // The data part of the the electric vehicle information
-    const dataArray = response.responseData.data;
-    let divList = '';
-    for (let i = 0; i < dataArray.length; i++) {
-      divList = `${divList}<div>${dataArray[i][8]}</div>`;
-    }
-    document.getElementById('vins').innerHTML = divList;
-  },
-);
-
-makeRequest(
-  'POST',
-  'https://httpbin.org/anything',
-  (response) => {
-    if (response.error) {
-      throw response.error;
-    }
-    // eslint-disable-next-line no-use-before-define
-    document.getElementById('posted-data').innerHTML = stringifyJSON(
-      response.responseData,
-    );
-  },
-  'Data that we want to send to the server!',
-);
-
 const stringifyJSON = (data) => {
   if (data === undefined) return undefined;
-  if (data === null) return 'null';
-  if (data.constructor === String) return `"${data.replace(/"/g, '\\"')}"`;
-  if (data.constructor === Number) return String(data);
-  if (data.constructor === Boolean) return data ? 'true' : 'false';
-  if (data.constructor === Array) {
+  else if (data === null) return "null";
+  else if (data.constructor === String)
+    return '"' + data.replace(/"/g, '\\"') + '"';
+  else if (data.constructor === Number) return String(data);
+  else if (data.constructor === Boolean) return data ? "true" : "false";
+  else if (data.constructor === Array)
     return (
-      `[ ${
-        data
-          .reduce((acc, v) => {
-            if (v === undefined) return [...acc, 'null'];
-            return [...acc, stringifyJSON(v)];
-          }, [])
-          .join(', ')
-      } ]`
+      "[ " +
+      data
+        .reduce((acc, v) => {
+          if (v === undefined) return [...acc, "null"];
+          else return [...acc, stringifyJSON(v)];
+        }, [])
+        .join(", ") +
+      " ]"
     );
-  }
-  if (data.constructor === Object) {
+  else if (data.constructor === Object)
     return (
-      `{ ${
-        Object.keys(data)
-          .reduce((acc, k) => {
-            if (data[k] === undefined) return acc;
-            return [...acc, `${stringifyJSON(k)}:${stringifyJSON(data[k])}`];
-          }, [])
-          .join(', ')
-      } }`
+      "{ " +
+      Object.keys(data)
+        .reduce((acc, k) => {
+          if (data[k] === undefined) return acc;
+          else return [...acc, stringifyJSON(k) + ":" + stringifyJSON(data[k])];
+        }, [])
+        .join(", ") +
+      " }"
     );
-  }
-  return '{}';
+  else return "{}";
 };
+
+makeRequest(
+  "GET",
+  "https://data.wa.gov/resource/f6w7-q2d2.json",
+  (response) => {
+    if (response.error) {
+      throw response.error;
+    }
+
+    console.log(response);
+    let makes={};
+
+    response.responseData.forEach(item=>{
+      if (makes[item.make]) {
+        makes[item.make] += 1;
+      } else {
+        makes[item.make] = 1;
+      }
+    });
+    Object.keys(makes).forEach(item=>{
+      document.querySelector(".ajax").innerHTML+="<p>"+item+": "+makes[item]+"</p>";
+    })
+    console.log(makes);
+  }
+);
